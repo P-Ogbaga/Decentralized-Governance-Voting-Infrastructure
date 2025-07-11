@@ -272,3 +272,33 @@
     (ok true)
   )
 )
+
+;; Admin Functions
+;; Upgrade Governance Parameters (Controlled by Contract Owner)
+(define-public (upgrade-governance-params 
+  (new-max-delegation-depth uint)
+)
+  (begin
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-UNAUTHORIZED)
+    ;; Future expansion for upgrading governance parameters
+    (ok true)
+  )
+)
+
+;; Emergency Pause Mechanism
+(define-public (toggle-contract-pause)
+  (begin
+    (asserts! (is-eq tx-sender CONTRACT-OWNER) ERR-UNAUTHORIZED)
+    (var-set contract-paused (not (var-get contract-paused)))
+    (ok (var-get contract-paused))
+  )
+)
+
+;; Advanced Governance Metrics
+(define-read-only (get-governance-metrics)
+  {
+    total-governance-tokens: (var-get total-governance-tokens),
+    total-proposals: (var-get next-proposal-id),
+    contract-paused: (var-get contract-paused)
+  }
+)
