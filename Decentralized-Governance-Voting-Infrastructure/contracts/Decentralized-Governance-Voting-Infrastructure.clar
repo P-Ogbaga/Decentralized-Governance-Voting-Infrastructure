@@ -254,3 +254,21 @@
     )
   )
 )
+
+;; Get Proposal Details
+(define-read-only (get-proposal-details (proposal-id uint))
+  (map-get? proposals {proposal-id: proposal-id})
+)
+
+;; Get Voting Power
+(define-read-only (get-voting-power (voter principal))
+  (ft-get-balance governance-token voter)
+)
+
+;; Revoke Delegation
+(define-public (revoke-delegation)
+  (begin
+    (map-delete delegations tx-sender)
+    (ok true)
+  )
+)
